@@ -1,14 +1,14 @@
 const createLogger = moduleName => {
-  const info = message => {
-    console.log(`${moduleName}: ${message}`);
+  const info = (...data) => {
+    console.log(`${moduleName}:`, ...data);
   };
 
-  const warn = message => {
-    console.warn(`${moduleName}: ${message}`);
+  const warn = (...data) => {
+    console.warn(`${moduleName}:`, ...data);
   };
 
-  const error = message => {
-    console.error(`${moduleName}: ${message}`);
+  const error = (...data) => {
+    console.error(`${moduleName}:`, ...data);
   };
 
   return {
