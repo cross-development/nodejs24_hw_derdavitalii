@@ -10,8 +10,6 @@ import { Logger } from './utils/logger';
 
 const configService = new ConfigService();
 
-const logger = new Logger(configService);
-
-const fileSync = new FileSync(logger);
+const fileSync = new FileSync(Logger.getInstance(configService));
 
 fileSync.start();
