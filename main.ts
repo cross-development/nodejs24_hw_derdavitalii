@@ -4,14 +4,20 @@ dotenv.config();
 // Modules
 import { FileSync } from './file_sync';
 // Services
+import { Logger } from './services/logger.service';
 import { ConfigService } from './services/config.service';
-// Utils
-import { Logger } from './utils/logger';
 
-const configService = new ConfigService();
+const configService = ConfigService.getInstance();
 
-const logger = new Logger(configService);
+const mainLogger = new Logger('Main', configService);
+const fileSyncLogger = new Logger('FileSync', configService);
 
-const fileSync = new FileSync(logger);
+mainLogger.info('Info message from Main');
+
+const fileSync = new FileSync(fileSyncLogger);
+
+mainLogger.warn('Warn message from Main');
 
 fileSync.start();
+
+mainLogger.error('Error message from Main');

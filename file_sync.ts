@@ -9,9 +9,7 @@ import { IFileSync } from './types/file-sync.interface';
  * FileSync module to synchronize content from the source directory to the target directory.
  */
 export class FileSync implements IFileSync {
-	constructor(private readonly logger: ILogger) {
-		this.logger.init('file_sync');
-	}
+	constructor(private readonly logger: ILogger) {}
 
 	/**
 	 * Method used to copy files and directories from the source directory to the target one.

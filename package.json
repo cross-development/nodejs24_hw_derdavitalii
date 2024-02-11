@@ -6,10 +6,11 @@
 	"scripts": {
 		"start": "node ./build/main.js",
 		"dev": "nodemon main.ts",
+		"build": "npx tsc",
 		"debug": "node --inspect-brk main.js"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "Vitalii Derda",
 	"license": "ISC",
 	"dependencies": {
 		"colors": "^1.4.0",

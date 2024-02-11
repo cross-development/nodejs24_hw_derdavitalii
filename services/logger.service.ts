@@ -1,5 +1,9 @@
+// Core
+import { WriteStream } from 'fs';
 // Packages
 import colors from 'colors/safe';
+// Utils
+import { FileSystemFacade } from '../utils/fileSystem.facade';
 // Types
 import { ILogger } from '../types/logger.interface';
 import { ILoggerConfig } from '../types/logger-config.interface';
@@ -7,15 +11,20 @@ import { IConfigService } from '../types/config.service.interface';
 
 /**
  * Simple logger to log info, warnings and errors.
- * Logs arguments using this pattern - 'moduleName: all_passed_arguments'.
  */
 export class Logger implements ILogger {
+	private readonly fileSystemFacade: FileSystemFacade;
+
 	private loggerConfig: ILoggerConfig;
 	private logLevel: number;
 	private levels: ILoggerConfig['levels'];
-	private moduleName: string = 'main';
 
-	constructor(private readonly configService: IConfigService) {
+	constructor(
+		private readonly moduleName: string,
+		private readonly configService: IConfigService,
+	) {
+		this.fileSystemFacade = FileSystemFacade.getInstance();
+
 		this.initializeLoggerConfig();
 		this.initializeLogLevel();
 		this.initializeColors();
@@ -44,14 +53,17 @@ export class Logger implements ILogger {
 	}
 
 	/**
-	 * Method for initializing the logger context
-	 * @param moduleName - A context in which the logger will be used (a name of module)
-	 * @returns The instance of the logger
+	 * Method for logging a message to the log files
+	 * @param stream - A write stream for logging to the log file
+	 * @param level - A level for logging ("info" | "warn" | "error")
+	 * @param args - Any arguments for logging
 	 */
-	public init(moduleName: string): ILogger {
-		this.moduleName = moduleName;
+	private logToFile(stream: WriteStream, level: ILoggerConfig['logLevel'], args: unknown[]): void {
+		const timestamp = new Date().toISOString();
+		const logLevel = level.toUpperCase();
+		const message = args.join('; ');
 
-		return this;
+		stream.write(`${timestamp} [${logLevel}] [${this.moduleName}]: ${message}\n`);
 	}
 
 	/**
@@ -62,6 +74,8 @@ export class Logger implements ILogger {
 		if (this.levels.info >= this.logLevel) {
 			console.log(colors.bgBlue(`${this.moduleName}:`), ...args);
 		}
+
+		this.logToFile(this.fileSystemFacade.infoStream, 'info', args);
 	}
 
 	/**
@@ -72,6 +86,8 @@ export class Logger implements ILogger {
 		if (this.levels.warn >= this.logLevel) {
 			console.warn(colors.bgYellow(`${this.moduleName}:`), ...args);
 		}
+
+		this.logToFile(this.fileSystemFacade.errorStream, 'warn', args);
 	}
 
 	/**
@@ -82,5 +98,7 @@ export class Logger implements ILogger {
 		if (this.levels.error >= this.logLevel) {
 			console.error(colors.bgRed(`${this.moduleName}:`), ...args);
 		}
+
+		this.logToFile(this.fileSystemFacade.errorStream, 'error', args);
 	}
 }
