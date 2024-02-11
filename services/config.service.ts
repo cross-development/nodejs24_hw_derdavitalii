@@ -7,10 +7,25 @@ import { IConfigService } from '../types/config.service.interface';
  * ConfigureService used to provide access to the app configurations.
  */
 export class ConfigService implements IConfigService {
+	private static instance: ConfigService;
+
 	private readonly config: IConfig;
 
-	constructor() {
+	private constructor() {
 		this.config = config;
+	}
+
+	/**
+	 * Static method for getting the config service instance
+	 * @returns The instance of the config service
+	 */
+	public static getInstance(): ConfigService {
+		// Create the class instance if it does not exist.
+		if (!ConfigService.instance) {
+			ConfigService.instance = new ConfigService();
+		}
+
+		return ConfigService.instance;
 	}
 
 	/**
