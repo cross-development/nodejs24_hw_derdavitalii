@@ -1,5 +1,3 @@
-// Core
-import { WriteStream } from 'fs';
 // Packages
 import colors from 'colors/safe';
 // Utils
@@ -13,7 +11,7 @@ import { IConfigService } from '../types/config.service.interface';
  * Simple logger to log info, warnings and errors.
  */
 export class Logger implements ILogger {
-	private readonly fileSystemFacade: FileSystemFacade;
+	private static fileSystemFacade: FileSystemFacade;
 
 	private loggerConfig: ILoggerConfig;
 	private logLevel: number;
@@ -23,11 +21,17 @@ export class Logger implements ILogger {
 		private readonly moduleName: string,
 		private readonly configService: IConfigService,
 	) {
-		this.fileSystemFacade = FileSystemFacade.getInstance();
-
 		this.initializeLoggerConfig();
 		this.initializeLogLevel();
 		this.initializeColors();
+	}
+
+	/**
+	 * Uses FileSystemFacade as an injectable option without any hard dependencies
+	 * @param fileSystemFacade
+	 */
+	public static useFileSystemFacade(fileSystemFacade: FileSystemFacade): void {
+		this.fileSystemFacade = fileSystemFacade;
 	}
 
 	/**
@@ -54,14 +58,16 @@ export class Logger implements ILogger {
 
 	/**
 	 * Method for logging a message to the log files
-	 * @param stream - A write stream for logging to the log file
+	 * @param streamName - A write stream name for logging to
 	 * @param level - A level for logging ("info" | "warn" | "error")
 	 * @param args - Any arguments for logging
 	 */
-	private logToFile(stream: WriteStream, level: ILoggerConfig['logLevel'], args: unknown[]): void {
+	private logToFile(streamName: 'infoStream' | 'errorStream', level: ILoggerConfig['logLevel'], args: unknown[]): void {
+		const stream = Logger.fileSystemFacade[streamName];
+
 		const timestamp = new Date().toISOString();
 		const logLevel = level.toUpperCase();
-		const message = args.join('; ');
+		const message = args.map((arg) => JSON.stringify(arg)).join('; ');
 
 		stream.write(`${timestamp} [${logLevel}] [${this.moduleName}]: ${message}\n`);
 	}
@@ -75,7 +81,7 @@ export class Logger implements ILogger {
 			console.log(colors.bgBlue(`${this.moduleName}:`), ...args);
 		}
 
-		this.logToFile(this.fileSystemFacade.infoStream, 'info', args);
+		this.logToFile('infoStream', 'info', args);
 	}
 
 	/**
@@ -87,7 +93,7 @@ export class Logger implements ILogger {
 			console.warn(colors.bgYellow(`${this.moduleName}:`), ...args);
 		}
 
-		this.logToFile(this.fileSystemFacade.errorStream, 'warn', args);
+		this.logToFile('errorStream', 'warn', args);
 	}
 
 	/**
@@ -99,6 +105,6 @@ export class Logger implements ILogger {
 			console.error(colors.bgRed(`${this.moduleName}:`), ...args);
 		}
 
-		this.logToFile(this.fileSystemFacade.errorStream, 'error', args);
+		this.logToFile('errorStream', 'error', args);
 	}
 }
