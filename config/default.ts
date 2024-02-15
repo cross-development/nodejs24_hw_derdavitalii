@@ -8,6 +8,9 @@ const config = {
 		logLevel: process.env.LOG_LEVEL ?? 'warn',
 		colorsEnabled: Number(process.env.COLORS_ENABLED) ?? 0,
 	},
+	application: {
+		port: Number(process.env.PORT) || 8000,
+	},
 };
 
 export default config;
