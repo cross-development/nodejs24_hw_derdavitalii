@@ -1,7 +1,7 @@
 // Packages
 import colors from 'colors/safe';
 // Utils
-import { FileSystemFacade } from '../utils/fileSystem.facade';
+import { FileSystemFacade } from './fileSystem.facade';
 // Types
 import { ILogger } from '../types/logger.interface';
 import { ILoggerConfig } from '../types/logger-config.interface';

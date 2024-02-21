@@ -4,7 +4,7 @@ dotenv.config();
 // Application
 import { App } from './app';
 // Services
-import { Logger } from './services/logger.service';
+import { Logger } from './utils/logger';
 import { ConfigService } from './services/config.service';
 // Utils
 import { FileSystemFacade } from './utils/fileSystem.facade';

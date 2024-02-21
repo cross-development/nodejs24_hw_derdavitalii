@@ -2,8 +2,8 @@
 import path from 'path';
 import fs from 'fs/promises';
 // Types
-import { ILogger } from './types/logger.interface';
-import { IFileSync } from './types/file-sync.interface';
+import { ILogger } from '../types/logger.interface';
+import { IFileSync } from '../types/file-sync.interface';
 
 /**
  * FileSync module to synchronize content from the source directory to the target directory.
@@ -69,8 +69,8 @@ export class FileSync implements IFileSync {
 	 */
 	public async start(): Promise<void> {
 		const currentDir = path.sep;
-		const sourceDir = path.join(__dirname, 'source');
-		const targetDir = path.join(__dirname, 'target');
+		const sourceDir = path.join(__dirname, '..', 'source');
+		const targetDir = path.join(__dirname, '..', 'target');
 
 		await this.copyFiles(sourceDir, targetDir, currentDir);
 	}

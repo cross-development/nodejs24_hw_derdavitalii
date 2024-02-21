@@ -32,7 +32,7 @@ export class FileSystemFacade {
 	 * Method for initializing the info and error streams.
 	 */
 	private initializeStreams(): void {
-		const logsDir = path.join('.', 'logs');
+		const logsDir = path.join('..', '..', 'logs');
 
 		// Create the logs directory if it does not exist.
 		if (!fs.existsSync(logsDir)) {
