@@ -6,9 +6,10 @@ const config = {
 			error: 2,
 		},
 		logLevel: process.env.LOG_LEVEL ?? 'warn',
+		logToFile: Number(process.env.LOG_TO_FILE) ?? 0,
 		colorsEnabled: Number(process.env.COLORS_ENABLED) ?? 0,
 	},
-	application: {
+	server: {
 		port: Number(process.env.PORT) || 8000,
 	},
 };

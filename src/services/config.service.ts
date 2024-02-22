@@ -1,31 +1,18 @@
 // Packages
+import { injectable } from 'inversify';
 import config, { IConfig } from 'config';
 // Types
-import { IConfigService } from '../types/config.service.interface';
+import { IConfigService } from './abstractions/config.service.interface';
 
 /**
  * ConfigureService used to provide access to the app configurations.
  */
+@injectable()
 export class ConfigService implements IConfigService {
-	private static instance: ConfigService;
-
 	private readonly config: IConfig;
 
-	private constructor() {
+	constructor() {
 		this.config = config;
-	}
-
-	/**
-	 * Static method for getting the config service instance
-	 * @returns The instance of the config service
-	 */
-	public static getInstance(): ConfigService {
-		// Create the class instance if it does not exist.
-		if (!ConfigService.instance) {
-			ConfigService.instance = new ConfigService();
-		}
-
-		return ConfigService.instance;
 	}
 
 	/**
