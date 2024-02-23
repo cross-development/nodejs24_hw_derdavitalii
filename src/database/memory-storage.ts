@@ -12,8 +12,13 @@ import { TYPES } from '../constants/types';
 // Types
 import { ILoggerService } from '../services/abstractions/logger.service.interface';
 
+/**
+ * Memory storage used to simulate a database behavior.
+ * At first I made this storage to be generic, but we need to create a new user somewhere.
+ * That's why it is only adjusted to work with the UserModel
+ */
 @injectable()
-export class PersistenceService {
+export class MemoryStorage {
 	private readonly pathToDatabase: string;
 
 	private data: UserModel[] = [];
@@ -22,6 +27,9 @@ export class PersistenceService {
 		this.pathToDatabase = path.join(__dirname, 'db.json');
 	}
 
+	/**
+	 * Method used to load data from a database file and store received data in memory.
+	 */
 	public async connect(): Promise<void> {
 		try {
 			const loadedData = await fsAsync.readFile(this.pathToDatabase, { encoding: 'utf-8', flag: 'a+' });
@@ -34,6 +42,9 @@ export class PersistenceService {
 		}
 	}
 
+	/**
+	 * Method used to save data from memory to the database file after the server stops
+	 */
 	public async disconnect(): Promise<void> {
 		try {
 			const stringifiedData = JSON.stringify(this.data, null, 2);
@@ -46,17 +57,31 @@ export class PersistenceService {
 		}
 	}
 
-	public async findMany<T>(): Promise<T[]> {
-		return this.data as T[];
+	/**
+	 * Method used to get the data from memory (a list of users)
+	 * @returns The data from memory. In fact, it is a list of users
+	 */
+	public async findMany(): Promise<UserModel[]> {
+		return this.data;
 	}
 
-	public async findUnique<T>(id: number): Promise<T | null> {
-		const item = this.data.find((item) => item.id === id) as T;
+	/**
+	 * Method used to get a unique entity from memory.
+	 * @param id - An entity (user) id to get the data from memory (specific user by id)
+	 * @returns An entity or null if it doesn't exists
+	 */
+	public async findUnique(id: number): Promise<UserModel | null> {
+		const item = this.data.find((item) => item.id === id);
 
 		return item || null;
 	}
 
-	public async create<T>(entity: User): Promise<T> {
+	/**
+	 * Method used to create a new entity in memory (a new user)
+	 * @param entity - An entity from which the data will be obtained
+	 * @returns Created model (user)
+	 */
+	public async create(entity: User): Promise<UserModel> {
 		const user = new UserModel();
 
 		user.id = this.data.length;
@@ -65,9 +90,14 @@ export class PersistenceService {
 
 		this.data.push(user);
 
-		return user as T;
+		return user;
 	}
 
+	/**
+	 * Method used to delete an entity by its id (user id)
+	 * @param id - An entity id (user id)
+	 * @returns If the entity was deleted, true is returned, otherwise false
+	 */
 	public async delete(id: number): Promise<boolean> {
 		const indexToDelete = this.data.findIndex((item) => item.id === id);
 

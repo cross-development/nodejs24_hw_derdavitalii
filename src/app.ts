@@ -9,7 +9,7 @@ import { UserController } from './controllers/users.controller';
 // Constants
 import { TYPES } from './constants/types';
 // Database
-import { PersistenceService } from './database/persistence.service';
+import { MemoryStorage } from './database/memory-storage';
 // Types
 import { TServerConfig } from './types/app.config.interface';
 import { ILoggerService } from './services/abstractions/logger.service.interface';
@@ -29,7 +29,7 @@ export class App {
 		@inject(TYPES.IConfigService) private readonly configService: IConfigService,
 		@inject(TYPES.IUserController) private readonly userController: UserController,
 		@inject(TYPES.IExceptionFilter) private readonly exceptionFilter: IExceptionFilter,
-		@inject(TYPES.PersistenceService) private readonly persistenceService: PersistenceService,
+		@inject(TYPES.MemoryStorage) private readonly memoryStorage: MemoryStorage,
 	) {
 		this.app = express();
 		this.port = this.configService.get<TServerConfig>('server').port;
@@ -75,14 +75,14 @@ export class App {
 	}
 
 	/**
-	 * Method used to register database
+	 * Method used to register the database (or a memory storage)
 	 */
 	private async useDatabase(): Promise<void> {
-		await this.persistenceService.connect();
+		await this.memoryStorage.connect();
 
 		// https://nodejs.org/api/process.html
 		process.on('SIGINT', async () => {
-			await this.persistenceService.disconnect();
+			await this.memoryStorage.disconnect();
 
 			process.exit(0);
 		});

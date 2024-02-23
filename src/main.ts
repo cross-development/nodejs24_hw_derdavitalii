@@ -10,7 +10,7 @@ import { UserService } from './services/users.service';
 import { LoggerService } from './services/logger.service';
 import { ConfigService } from './services/config.service';
 // Database
-import { PersistenceService } from './database/persistence.service';
+import { MemoryStorage } from './database/memory-storage';
 // Controllers
 import { UserController } from './controllers/users.controller';
 // Repositories
@@ -35,7 +35,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IConfigService>(TYPES.IConfigService).to(ConfigService).inSingletonScope();
 	bind<IExceptionFilter>(TYPES.IExceptionFilter).to(ExceptionFilter).inSingletonScope();
 	// Database
-	bind<PersistenceService>(TYPES.PersistenceService).to(PersistenceService).inSingletonScope();
+	bind<MemoryStorage>(TYPES.MemoryStorage).to(MemoryStorage).inSingletonScope();
 	// Users
 	bind<IUserService>(TYPES.IUserService).to(UserService).inSingletonScope();
 	bind<IUserRepository>(TYPES.IUserRepository).to(UserRepository).inSingletonScope();

@@ -65,12 +65,12 @@ export class LoggerService implements ILoggerService {
 		const logLevel = level.toUpperCase();
 		const message = args.map((arg) => JSON.stringify(arg)).join('; ');
 
-		stream.write(`${timestamp} [${logLevel}] [${dest}]: ${message}\n`);
+		stream.write(`${timestamp} [${logLevel}] [app]: ${message}\n`);
 	}
 
 	/**
 	 * Method for logging information
-	 * @param context - A context in which the logger uses
+	 * @param context - A context in which the logger is used
 	 * @param args - Any arguments for logging
 	 */
 	public info(context: string, ...args: unknown[]): void {
@@ -85,7 +85,7 @@ export class LoggerService implements ILoggerService {
 
 	/**
 	 * Method for logging warnings
-	 * @param context - A context in which the logger uses
+	 * @param context - A context in which the logger is used
 	 * @param args - Any arguments for logging
 	 */
 	public warn(context: string, ...args: unknown[]): void {
@@ -100,7 +100,7 @@ export class LoggerService implements ILoggerService {
 
 	/**
 	 * Method for logging errors
-	 * @param context - A context in which the logger uses
+	 * @param context - A context in which the logger is used
 	 * @param args - Any arguments for logging
 	 */
 	public error(context: string, ...args: unknown[]): void {
