@@ -13,7 +13,7 @@ import { TYPES } from '../constants/types';
 import { ILoggerService } from '../services/abstractions/logger.service.interface';
 
 /**
- * Memory storage used to simulate a database behavior.
+ * Memory storage is used to simulate a database behavior.
  * At first I made this storage to be generic, but we need to create a new user somewhere.
  * That's why it is only adjusted to work with the UserModel
  */
@@ -28,7 +28,7 @@ export class MemoryStorage {
 	}
 
 	/**
-	 * Method used to load data from a database file and store received data in memory.
+	 * Method is used to load data from a database file and store received data in memory.
 	 */
 	public async connect(): Promise<void> {
 		try {
@@ -36,14 +36,14 @@ export class MemoryStorage {
 
 			this.data = JSON.parse(loadedData || '[]');
 
-			this.loggerService.info('database', 'Connection to the database has been established');
+			this.loggerService.info('[MemoryStorage]', 'Connection to the database has been established');
 		} catch (error) {
-			this.loggerService.error('database', 'The error has been occurred while connecting to the database');
+			this.loggerService.error('[MemoryStorage]', 'The error has been occurred while connecting to the database');
 		}
 	}
 
 	/**
-	 * Method used to save data from memory to the database file after the server stops
+	 * Method is used to save data from memory to the database file after the server stops
 	 */
 	public async disconnect(): Promise<void> {
 		try {
@@ -51,14 +51,14 @@ export class MemoryStorage {
 
 			await fsAsync.writeFile(this.pathToDatabase, stringifiedData);
 
-			this.loggerService.info('database', 'The database has been disconnected');
+			this.loggerService.info('[MemoryStorage]', 'The database has been disconnected');
 		} catch (error) {
-			this.loggerService.error('database', 'The error has been occurred while disconnecting from the database');
+			this.loggerService.error('[MemoryStorage]', 'The error has been occurred while disconnecting from the database');
 		}
 	}
 
 	/**
-	 * Method used to get the data from memory (a list of users)
+	 * Method is used to get the data from memory (a list of users)
 	 * @returns The data from memory. In fact, it is a list of users
 	 */
 	public async findMany(): Promise<UserModel[]> {
@@ -66,7 +66,7 @@ export class MemoryStorage {
 	}
 
 	/**
-	 * Method used to get a unique entity from memory.
+	 * Method is used to get a unique entity from memory.
 	 * @param id - An entity (user) id to get the data from memory (specific user by id)
 	 * @returns An entity or null if it doesn't exists
 	 */
@@ -77,7 +77,7 @@ export class MemoryStorage {
 	}
 
 	/**
-	 * Method used to create a new entity in memory (a new user)
+	 * Method is used to create a new entity in memory (a new user)
 	 * @param entity - An entity from which the data will be obtained
 	 * @returns Created model (user)
 	 */
@@ -94,7 +94,7 @@ export class MemoryStorage {
 	}
 
 	/**
-	 * Method used to delete an entity by its id (user id)
+	 * Method is used to delete an entity by its id (user id)
 	 * @param id - An entity id (user id)
 	 * @returns If the entity was deleted, true is returned, otherwise false
 	 */

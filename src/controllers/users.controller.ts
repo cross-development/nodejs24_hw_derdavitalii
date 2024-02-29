@@ -20,7 +20,7 @@ import { IUserService } from '../services/abstractions/users.service.interface';
 import { ILoggerService } from '../services/abstractions/logger.service.interface';
 
 /**
- * A user controller used to perform CRUD operations on the user
+ * A user controller is used to perform CRUD operations on the user
  */
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -34,7 +34,7 @@ export class UserController extends BaseController implements IUserController {
 	}
 
 	/**
-	 * Method used to define and bind all endpoints in the controller
+	 * Method is used to define and bind all endpoints in the controller
 	 */
 	private registerRoutes(): void {
 		this.bindRoutes([
@@ -61,7 +61,7 @@ export class UserController extends BaseController implements IUserController {
 	}
 
 	/**
-	 * Method used to get the list of users
+	 * Method is used to get the list of users
 	 * @param req - The express request
 	 * @param res - The express response
 	 * @param next - The next function called to pass the request further
@@ -73,7 +73,7 @@ export class UserController extends BaseController implements IUserController {
 	}
 
 	/**
-	 * Method used to get a user by id
+	 * Method is used to get a user by id
 	 * @param req - The express request
 	 * @param res - The express response
 	 * @param next - The next function called to pass the request further
@@ -83,26 +83,26 @@ export class UserController extends BaseController implements IUserController {
 		const user = await this.userService.getUserById(Number(req.params.userId));
 
 		if (!user) {
-			return next(new BusinessException(StatusCode.NotFound, 'User not found', 'getUserById'));
+			return next(new BusinessException(StatusCode.NotFound, 'User not found', '[UserController]'));
 		}
 
 		this.ok(res, user);
 	}
 
 	/**
-	 * Method used to create user base on the provided data
+	 * Method is used to create user base on the provided data
 	 * @param req - The express request
 	 * @param res - The express response
 	 * @param next - The next function called to pass the request further
 	 */
 	public async createUser(req: RequestType<CreateUserRequestDto>, res: Response, next: NextFunction): Promise<void> {
-		await this.userService.createUser(req.body);
+		const user = await this.userService.createUser(req.body);
 
-		this.created(res);
+		this.created(res, user);
 	}
 
 	/**
-	 * Method used to delete a user by id
+	 * Method is used to delete a user by id
 	 * @param req - The express request
 	 * @param res - The express response
 	 * @param next - The next function called to pass the request further
@@ -114,7 +114,7 @@ export class UserController extends BaseController implements IUserController {
 		const isUserDeleted = await this.userService.deleteUser(userId);
 
 		if (!isUserDeleted) {
-			return next(new BusinessException(StatusCode.NotFound, 'User not found', 'deleteUser'));
+			return next(new BusinessException(StatusCode.NotFound, 'User not found', '[UserController]'));
 		}
 
 		this.noContent(res);

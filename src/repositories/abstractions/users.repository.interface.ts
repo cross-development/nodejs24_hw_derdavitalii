@@ -1,7 +1,7 @@
 // Entities
 import { User } from '../../entities/user.entity';
 // Models
-import { UserModel } from '../../entities/models/user.model';
+import { UserModel } from '.prisma/client';
 
 export interface IUserRepository {
 	findAll(): Promise<UserModel[]>;

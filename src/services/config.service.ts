@@ -5,7 +5,7 @@ import config, { IConfig } from 'config';
 import { IConfigService } from './abstractions/config.service.interface';
 
 /**
- * ConfigureService used to provide access to the app configurations.
+ * ConfigureService is used to provide access to the app configurations.
  */
 @injectable()
 export class ConfigService implements IConfigService {
@@ -16,7 +16,7 @@ export class ConfigService implements IConfigService {
 	}
 
 	/**
-	 * Method used to retrieve any data from the configuration by key.
+	 * Method is used to retrieve any data from the configuration by key.
 	 * @param key - A key that is used to retrieve a data from configuration.
 	 * @returns A data from configuration.
 	 */
@@ -25,7 +25,7 @@ export class ConfigService implements IConfigService {
 	}
 
 	/**
-	 * Method used to check whether the configuration has data by key.
+	 * Method is used to check whether the configuration has data by key.
 	 * @param key - A key that is used to check that the configuration has data for this key.
 	 * @returns A boolean result of the check.
 	 */

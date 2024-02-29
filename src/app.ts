@@ -9,7 +9,7 @@ import { UserController } from './controllers/users.controller';
 // Constants
 import { TYPES } from './constants/types';
 // Database
-import { MemoryStorage } from './database/memory-storage';
+import { PrismaService } from './database/prisma.service';
 // Types
 import { TServerConfig } from './types/app.config.interface';
 import { ILoggerService } from './services/abstractions/logger.service.interface';
@@ -29,14 +29,14 @@ export class App {
 		@inject(TYPES.IConfigService) private readonly configService: IConfigService,
 		@inject(TYPES.IUserController) private readonly userController: UserController,
 		@inject(TYPES.IExceptionFilter) private readonly exceptionFilter: IExceptionFilter,
-		@inject(TYPES.MemoryStorage) private readonly memoryStorage: MemoryStorage,
+		@inject(TYPES.PrismaService) private readonly prismaService: PrismaService,
 	) {
 		this.app = express();
 		this.port = this.configService.get<TServerConfig>('server').port;
 	}
 
 	/**
-	 * Method used to initialize the server
+	 * Method is used to initialize the server
 	 */
 	public async init(): Promise<void> {
 		this.useMiddleware();
@@ -48,7 +48,7 @@ export class App {
 	}
 
 	/**
-	 * Method used to register middleware
+	 * Method is used to register middleware
 	 */
 	private useMiddleware(): void {
 		this.app.use(helmet());
@@ -61,35 +61,35 @@ export class App {
 	}
 
 	/**
-	 * Method used to register server routes
+	 * Method is used to register server routes
 	 */
 	private useRoutes(): void {
-		this.app.use('/users', this.userController.router);
+		this.app.use('/api/users', this.userController.router);
 	}
 
 	/**
-	 * Method used to register exception filters
+	 * Method is used to register exception filters
 	 */
 	private useExceptionFilters(): void {
 		this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
 	}
 
 	/**
-	 * Method used to register the database (or a memory storage)
+	 * Method is used to register the database (or a memory storage)
 	 */
 	private async useDatabase(): Promise<void> {
-		await this.memoryStorage.connect();
+		await this.prismaService.connect();
 
 		// https://nodejs.org/api/process.html
 		process.on('SIGINT', async () => {
-			await this.memoryStorage.disconnect();
+			await this.prismaService.disconnect();
 
 			process.exit(0);
 		});
 	}
 
 	/**
-	 * Method used to listen to the server connection
+	 * Method is used to listen to the server connection
 	 */
 	private listen(): void {
 		this.app.listen(this.port, () => {

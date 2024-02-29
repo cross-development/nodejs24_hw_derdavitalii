@@ -16,7 +16,7 @@ export class FileSystemFacade {
 	}
 
 	/**
-	 * Static method for getting the file system facade instance
+	 * Static method is used to get the file system facade instance
 	 * @returns The instance of the file system facade
 	 */
 	public static getInstance(): FileSystemFacade {
@@ -29,7 +29,7 @@ export class FileSystemFacade {
 	}
 
 	/**
-	 * Method for initializing the info and error streams.
+	 * Method is used to initialize the info and error streams.
 	 */
 	private initializeStreams(): void {
 		const logsDir = path.join(__dirname, '..', '..', 'logs');

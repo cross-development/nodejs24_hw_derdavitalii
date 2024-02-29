@@ -10,6 +10,7 @@ import { UserService } from './services/users.service';
 import { LoggerService } from './services/logger.service';
 import { ConfigService } from './services/config.service';
 // Database
+import { PrismaService } from './database/prisma.service';
 import { MemoryStorage } from './database/memory-storage';
 // Controllers
 import { UserController } from './controllers/users.controller';
@@ -36,6 +37,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IExceptionFilter>(TYPES.IExceptionFilter).to(ExceptionFilter).inSingletonScope();
 	// Database
 	bind<MemoryStorage>(TYPES.MemoryStorage).to(MemoryStorage).inSingletonScope();
+	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 	// Users
 	bind<IUserService>(TYPES.IUserService).to(UserService).inSingletonScope();
 	bind<IUserRepository>(TYPES.IUserRepository).to(UserRepository).inSingletonScope();

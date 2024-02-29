@@ -11,7 +11,7 @@ import { ILoggerService } from './abstractions/logger.service.interface';
 import { IConfigService } from './abstractions/config.service.interface';
 
 /**
- * Simple logger to log info, warnings and errors.
+ * Simple logger is used to log info, warnings and errors.
  */
 @injectable()
 export class LoggerService implements ILoggerService {
@@ -27,7 +27,7 @@ export class LoggerService implements ILoggerService {
 	}
 
 	/**
-	 * Method for initializing the logger config
+	 * Method is used to initialize the logger config
 	 */
 	private initializeLoggerConfig(): void {
 		this.loggerConfig = this.configService.get<TLoggerConfig>('logger');
@@ -38,7 +38,7 @@ export class LoggerService implements ILoggerService {
 	}
 
 	/**
-	 * Method for initializing the logger level
+	 * Method is used to initialize the logger level
 	 */
 	private initializeLogLevel(): void {
 		this.levels = this.loggerConfig.levels;
@@ -46,14 +46,14 @@ export class LoggerService implements ILoggerService {
 	}
 
 	/**
-	 * Method for initializing the logger colors
+	 * Method is used to initialize the logger colors
 	 */
 	private initializeColors(): void {
 		this.loggerConfig.colorsEnabled === 1 ? colors.enable() : colors.disable();
 	}
 
 	/**
-	 * Method for logging a message to the log files
+	 * Method is used to log a message to the log files
 	 * @param dest - A destination, a write stream name, for logging to
 	 * @param level - A level for logging ("info" | "warn" | "error")
 	 * @param args - Any arguments for logging
@@ -69,7 +69,7 @@ export class LoggerService implements ILoggerService {
 	}
 
 	/**
-	 * Method for logging information
+	 * Method is used to log information
 	 * @param context - A context in which the logger is used
 	 * @param args - Any arguments for logging
 	 */
@@ -84,7 +84,7 @@ export class LoggerService implements ILoggerService {
 	}
 
 	/**
-	 * Method for logging warnings
+	 * Method is used to log warnings
 	 * @param context - A context in which the logger is used
 	 * @param args - Any arguments for logging
 	 */
@@ -99,7 +99,7 @@ export class LoggerService implements ILoggerService {
 	}
 
 	/**
-	 * Method for logging errors
+	 * Method is used to log errors
 	 * @param context - A context in which the logger is used
 	 * @param args - Any arguments for logging
 	 */
