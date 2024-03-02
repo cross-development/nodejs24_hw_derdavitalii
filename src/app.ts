@@ -4,16 +4,16 @@ import { injectable, inject } from 'inversify';
 import * as bodyParser from 'body-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import cors from 'cors';
 // Controllers
 import { UserController } from './controllers/users.controller';
 // Constants
 import { TYPES } from './constants/types';
-// Database
-import { PrismaService } from './database/prisma.service';
 // Types
 import { TServerConfig } from './types/app.config.interface';
 import { ILoggerService } from './services/abstractions/logger.service.interface';
 import { IConfigService } from './services/abstractions/config.service.interface';
+import { IStorageManager } from './database/abstractions/storage-manager.interface';
 import { IExceptionFilter } from './exceptions/abstractions/exception.filter.interface';
 
 /**
@@ -29,7 +29,7 @@ export class App {
 		@inject(TYPES.IConfigService) private readonly configService: IConfigService,
 		@inject(TYPES.IUserController) private readonly userController: UserController,
 		@inject(TYPES.IExceptionFilter) private readonly exceptionFilter: IExceptionFilter,
-		@inject(TYPES.PrismaService) private readonly prismaService: PrismaService,
+		@inject(TYPES.IStorageManager) private readonly storageManager: IStorageManager,
 	) {
 		this.app = express();
 		this.port = this.configService.get<TServerConfig>('server').port;
@@ -52,6 +52,7 @@ export class App {
 	 */
 	private useMiddleware(): void {
 		this.app.use(helmet());
+		this.app.use(cors({ origin: this.configService.get<TServerConfig>('server').allowedOrigin }));
 
 		this.app.use(bodyParser.urlencoded({ extended: true }));
 		this.app.use(bodyParser.json());
@@ -78,11 +79,11 @@ export class App {
 	 * Method is used to register the database (or a memory storage)
 	 */
 	private async useDatabase(): Promise<void> {
-		await this.prismaService.connect();
+		await this.storageManager.initialize();
 
 		// https://nodejs.org/api/process.html
 		process.on('SIGINT', async () => {
-			await this.prismaService.disconnect();
+			await this.storageManager.dispose();
 
 			process.exit(0);
 		});

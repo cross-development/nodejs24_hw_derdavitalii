@@ -2,7 +2,7 @@
 import { injectable } from 'inversify';
 import { Response, Router } from 'express';
 // Constants
-import { StatusCode } from '../../constants/statusCode.enum';
+import { StatusCode } from '../../constants/status-code.enum';
 // Types
 import { ExpressReturnType, IControllerRoute } from './route.interface';
 import { ILoggerService } from '../../services/abstractions/logger.service.interface';

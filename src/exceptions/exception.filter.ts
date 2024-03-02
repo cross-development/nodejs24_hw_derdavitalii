@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from 'express';
 import { BusinessException } from './business-exception';
 // Constants
 import { TYPES } from '../constants/types';
-import { StatusCode } from '../constants/statusCode.enum';
+import { StatusCode } from '../constants/status-code.enum';
 // Types
 import { IExceptionFilter } from './abstractions/exception.filter.interface';
 import { ILoggerService } from '../services/abstractions/logger.service.interface';

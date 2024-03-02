@@ -10,7 +10,7 @@ import { CreateUserRequestDto } from '../entities/dto/create-user-request.dto';
 import { BusinessException } from '../exceptions/business-exception';
 // Constants
 import { TYPES } from '../constants/types';
-import { StatusCode } from '../constants/statusCode.enum';
+import { StatusCode } from '../constants/status-code.enum';
 // Middleware
 import { ValidateMiddleware } from '../middleware/validate.middleware';
 // Types

@@ -24,7 +24,7 @@ export class UserService implements IUserService {
 	 * @returns A list of users
 	 */
 	public async getAllUsers(): Promise<UserModel[]> {
-		return this.userRepository.findAll();
+		return this.userRepository.getAll();
 	}
 
 	/**
@@ -33,7 +33,7 @@ export class UserService implements IUserService {
 	 * @returns A user or null if the user doesn't exist
 	 */
 	public async getUserById(userId: number): Promise<UserModel | null> {
-		return this.userRepository.findOne(userId);
+		return this.userRepository.getById(userId);
 	}
 
 	/**
@@ -55,7 +55,7 @@ export class UserService implements IUserService {
 	 * @returns If the user has been deleted, true is returned, otherwise false
 	 */
 	public async deleteUser(userId: number): Promise<boolean> {
-		const existedUser = await this.userRepository.findOne(userId);
+		const existedUser = await this.userRepository.getById(userId);
 
 		if (!existedUser) {
 			return false;

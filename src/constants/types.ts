@@ -3,8 +3,8 @@ export const TYPES = {
 	// App
 	Application: Symbol.for('Application'),
 	// Database
-	PrismaService: Symbol.for('PrismaService'),
-	MemoryStorage: Symbol.for('MemoryStorage'),
+	IStorageManager: Symbol.for('IStorageManager'),
+	ApplicationDbContext: Symbol.for('ApplicationDbContext'),
 	// Common
 	ILoggerService: Symbol.for('LoggerService'),
 	IConfigService: Symbol.for('ConfigService'),

@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { validate, ValidationError } from 'class-validator';
 import { ClassConstructor, plainToClass } from 'class-transformer';
 // Constants
-import { StatusCode } from '../constants/statusCode.enum';
+import { StatusCode } from '../constants/status-code.enum';
 // Types
 import { IMiddleware } from './abstractions/middleware.interface';
 

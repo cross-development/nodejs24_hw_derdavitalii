@@ -1,0 +1,9 @@
+{
+	"userModel": [
+		{
+			"id": 0,
+			"email": "test@mail.com",
+			"username": "John Doe"
+		}
+	]
+}
