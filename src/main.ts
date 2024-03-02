@@ -10,7 +10,8 @@ import { UserService } from './services/users.service';
 import { LoggerService } from './services/logger.service';
 import { ConfigService } from './services/config.service';
 // Database
-import { MemoryStorage } from './database/memory-storage';
+import { StorageManager } from './database/storage-manager';
+import { ApplicationDbContext } from './database/application-db.context';
 // Controllers
 import { UserController } from './controllers/users.controller';
 // Repositories
@@ -24,6 +25,7 @@ import { IBootstrapReturn } from './types/app.interface';
 import { IUserService } from './services/abstractions/users.service.interface';
 import { IConfigService } from './services/abstractions/config.service.interface';
 import { ILoggerService } from './services/abstractions/logger.service.interface';
+import { IStorageManager } from './database/abstractions/storage-manager.interface';
 import { IExceptionFilter } from './exceptions/abstractions/exception.filter.interface';
 import { IUserController } from './controllers/abstractions/users.controller.interface';
 import { IUserRepository } from './repositories/abstractions/users.repository.interface';
@@ -35,7 +37,8 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IConfigService>(TYPES.IConfigService).to(ConfigService).inSingletonScope();
 	bind<IExceptionFilter>(TYPES.IExceptionFilter).to(ExceptionFilter).inSingletonScope();
 	// Database
-	bind<MemoryStorage>(TYPES.MemoryStorage).to(MemoryStorage).inSingletonScope();
+	bind<IStorageManager>(TYPES.IStorageManager).to(StorageManager).inSingletonScope();
+	bind<ApplicationDbContext>(TYPES.ApplicationDbContext).to(ApplicationDbContext).inSingletonScope();
 	// Users
 	bind<IUserService>(TYPES.IUserService).to(UserService).inSingletonScope();
 	bind<IUserRepository>(TYPES.IUserRepository).to(UserRepository).inSingletonScope();

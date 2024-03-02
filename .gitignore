@@ -134,3 +134,8 @@ build
 
 # macOS specifics
 .DS_Store
+
+# Database
+dev.db*
+*.db
+*.db*

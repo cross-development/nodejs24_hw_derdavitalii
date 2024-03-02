@@ -1,5 +1,5 @@
 // Models
-import { UserModel } from '../../entities/models/user.model';
+import { UserModel } from '.prisma/client';
 // Dto
 import { CreateUserRequestDto } from '../../entities/dto/create-user-request.dto';
 

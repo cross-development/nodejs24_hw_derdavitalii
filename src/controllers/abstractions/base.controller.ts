@@ -2,7 +2,7 @@
 import { injectable } from 'inversify';
 import { Response, Router } from 'express';
 // Constants
-import { StatusCode } from '../../constants/statusCode.enum';
+import { StatusCode } from '../../constants/status-code.enum';
 // Types
 import { ExpressReturnType, IControllerRoute } from './route.interface';
 import { ILoggerService } from '../../services/abstractions/logger.service.interface';
@@ -26,7 +26,7 @@ export abstract class BaseController {
 	}
 
 	/**
-	 * Method used to send data to the client
+	 * Method is used to send data to the client
 	 * @param res - The express response
 	 * @param code - A status code, see the StatusCode enum
 	 * @param message - A message to send to a client
@@ -39,7 +39,7 @@ export abstract class BaseController {
 	}
 
 	/**
-	 * Method used handle responses with an ok status
+	 * Method is used handle responses with an ok status
 	 * @param res - The express response
 	 * @param message - A message to send to a client
 	 * @returns A result of execution of send method with 200 status
@@ -49,16 +49,16 @@ export abstract class BaseController {
 	}
 
 	/**
-	 * Method used to handle responses with a created status
+	 * Method is used to handle responses with a created status
 	 * @param res - The express response
 	 * @returns A result of execution of sendStatus method with 201 status
 	 */
-	protected created(res: Response): ExpressReturnType {
-		return res.sendStatus(StatusCode.Created);
+	protected created<T>(res: Response, message: T): ExpressReturnType {
+		return this.send<T>(res, StatusCode.Created, message);
 	}
 
 	/**
-	 * Method used to handle responses with a no content status
+	 * Method is used to handle responses with a no content status
 	 * @param res - The express response
 	 * @returns A result of execution of sendStatus method with 204 status
 	 */
@@ -67,12 +67,12 @@ export abstract class BaseController {
 	}
 
 	/**
-	 * Method used to bind all the routes provided
+	 * Method is used to bind all the routes provided
 	 * @param routes - A list of routes to bind to the router
 	 */
 	protected bindRoutes(routes: IControllerRoute[]): void {
 		for (const route of routes) {
-			this.logger.info('bindRoutes', `[${route.method}] ${route.path}`);
+			this.logger.info('[BaseController]', `[${route.method}] ${route.path}`);
 
 			const handler = route.handler.bind(this);
 

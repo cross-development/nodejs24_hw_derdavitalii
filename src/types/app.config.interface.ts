@@ -1,6 +1,7 @@
 export interface IAppConfig {
 	logger: TLoggerConfig;
 	server: TServerConfig;
+	storage: TStorageConfig;
 }
 
 export type TLoggerConfig = {
@@ -16,4 +17,9 @@ export type TLoggerConfig = {
 
 export type TServerConfig = {
 	port: number;
+	allowedOrigin: string;
+};
+
+export type TStorageConfig = {
+	source: 'db' | 'memory';
 };

@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { validate, ValidationError } from 'class-validator';
 import { ClassConstructor, plainToClass } from 'class-transformer';
 // Constants
-import { StatusCode } from '../constants/statusCode.enum';
+import { StatusCode } from '../constants/status-code.enum';
 // Types
 import { IMiddleware } from './abstractions/middleware.interface';
 
@@ -17,7 +17,7 @@ export class ValidateMiddleware implements IMiddleware {
 	) {}
 
 	/**
-	 * Method used to format all errors received during validation
+	 * Method is used to format all errors received during validation
 	 * @param errors - All errors received during validation
 	 * @returns Formatted errors using pattern "error_key": ['error_message_1', 'error_message_2']
 	 */
@@ -37,7 +37,7 @@ export class ValidateMiddleware implements IMiddleware {
 	}
 
 	/**
-	 * Method used to execute a validation
+	 * Method is used to execute a validation
 	 * @param req - The express request
 	 * @param res - The express response
 	 * @param next - The next function called to pass the request further

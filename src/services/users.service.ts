@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify';
 // Entities
 import { User } from '../entities/user.entity';
 // Models
-import { UserModel } from '../entities/models/user.model';
+import { UserModel } from '.prisma/client';
 // Dto
 import { CreateUserRequestDto } from '../entities/dto/create-user-request.dto';
 // Constants
@@ -20,24 +20,24 @@ export class UserService implements IUserService {
 	constructor(@inject(TYPES.IUserRepository) private readonly userRepository: IUserRepository) {}
 
 	/**
-	 * Method used to get the list of users
+	 * Method is used to get the list of users
 	 * @returns A list of users
 	 */
 	public async getAllUsers(): Promise<UserModel[]> {
-		return this.userRepository.findAll();
+		return this.userRepository.getAll();
 	}
 
 	/**
-	 * Method used to get a user by their id
+	 * Method is used to get a user by their id
 	 * @param userId - A user id
 	 * @returns A user or null if the user doesn't exist
 	 */
 	public async getUserById(userId: number): Promise<UserModel | null> {
-		return this.userRepository.findOne(userId);
+		return this.userRepository.getById(userId);
 	}
 
 	/**
-	 * Method used to create a new user
+	 * Method is used to create a new user
 	 * @param dto - A user dto to create a user
 	 * @returns Created user
 	 */
@@ -50,12 +50,12 @@ export class UserService implements IUserService {
 	}
 
 	/**
-	 * Method used to delete a user by their id
+	 * Method is used to delete a user by their id
 	 * @param userId - A user id
 	 * @returns If the user has been deleted, true is returned, otherwise false
 	 */
 	public async deleteUser(userId: number): Promise<boolean> {
-		const existedUser = await this.userRepository.findOne(userId);
+		const existedUser = await this.userRepository.getById(userId);
 
 		if (!existedUser) {
 			return false;
